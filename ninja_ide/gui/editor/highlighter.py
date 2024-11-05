@@ -316,7 +316,8 @@ def build_highlighter(language, force=False):
         scanners = {}
         for scanner in syntax_structure.get("scanner"):
             name = scanner.get("partition_name")
-            scanners[name] = Scanner(scanner.get("tokens"))
+            # TODO: fix Scanner `re` issue
+            # scanners[name] = Scanner(scanner.get("tokens"))
         syntax = Syntax(part_scanner, scanners)
         syntax.build_context()
         syntax_registry.register_syntax(language, syntax)

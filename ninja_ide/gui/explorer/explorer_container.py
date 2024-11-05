@@ -200,7 +200,7 @@ class ExplorerContainer(dynamic_splitter.DynamicSplitter):
         else:
             self.widget(widget_index).addTab(obj, tabname)
         func = getattr(obj, 'install_tab', None)
-        if isinstance(func, collections.Callable):
+        if isinstance(func, collections.abc.Callable):
             func()
 
     def rotate_tab_position(self):

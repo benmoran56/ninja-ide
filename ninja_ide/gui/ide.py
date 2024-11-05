@@ -246,7 +246,7 @@ class IDE(QMainWindow):
 
         obj = IDE.__IDESERVICES.get(service_name, None)
         func = getattr(obj, 'install', None)
-        if isinstance(func, collections.Callable):
+        if isinstance(func, collections.abc.Callable):
             func()
         self._connect_signals()
 
@@ -282,7 +282,7 @@ class IDE(QMainWindow):
                     connection['target'], None)
                 slot = connection['slot']
                 signal_name = connection['signal_name']
-                if target and isinstance(slot, collections.Callable):
+                if target and isinstance(slot, collections.abc.Callable):
                     # FIXME:
                     sl = getattr(target, signal_name, None)
 

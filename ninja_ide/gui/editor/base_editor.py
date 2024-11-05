@@ -105,8 +105,7 @@ class BaseEditor(QPlainTextEdit, EditorMixin):
         palette.setColor(palette.Base, self._background_color)
         palette.setColor(palette.Text, self._foreground_color)
         palette.setColor(palette.HighlightedText, self._selection_color)
-        palette.setColor(palette.Highlight,
-                         self._selection_background_color)
+        palette.setColor(palette.Highlight, self._selection_background_color)
         self.setPalette(palette)
 
     def paintEvent(self, event):
@@ -130,7 +129,7 @@ class BaseEditor(QPlainTextEdit, EditorMixin):
             if not visible:
                 break
             if block.isVisible():
-                append((top, block_number, block))
+                append((int(top), int(block_number), block))
             block = block.next()
             top = bottom
             bottom = top + self.blockBoundingRect(block).height()

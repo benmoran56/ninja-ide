@@ -48,7 +48,7 @@ class BaseTextEditor(QPlainTextEdit):
         """Get or set the current cursor position"""
 
         cursor = self.textCursor()
-        return (cursor.blockNumber(), cursor.columnNumber())
+        return cursor.blockNumber(), cursor.columnNumber()
 
     @cursor_position.setter
     def cursor_position(self, position):
@@ -56,8 +56,7 @@ class BaseTextEditor(QPlainTextEdit):
         line = min(line, self.line_count() - 1)
         column = min(column, len(self.line_text(line)))
         cursor = QTextCursor(self.document().findBlockByNumber(line))
-        cursor.setPosition(cursor.block().position() + column,
-                           QTextCursor.MoveAnchor)
+        cursor.setPosition(cursor.block().position() + column, QTextCursor.MoveAnchor)
         self.setTextCursor(cursor)
 
     @property
@@ -281,8 +280,7 @@ class CodeEditor(BaseTextEditor):
 
         block = self.firstVisibleBlock()
         block_number = block.blockNumber()
-        top = self.blockBoundingGeometry(block).translated(
-            self.contentOffset()).top()
+        top = self.blockBoundingGeometry(block).translated(self.contentOffset()).top()
         bottom = top + self.blockBoundingRect(block).height()
         editor_height = self.height()
         while block.isValid():
@@ -290,7 +288,8 @@ class CodeEditor(BaseTextEditor):
             if not visible:
                 break
             if block.isVisible():
-                append((top, block_number, block))
+                # These are consumed as int:
+                append((int(top), int(block_number), block))
             block = block.next()
             top = bottom
             bottom = top + self.blockBoundingRect(block).height()

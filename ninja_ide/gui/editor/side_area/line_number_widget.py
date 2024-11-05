@@ -61,15 +61,12 @@ class LineNumberWidget(side_area.SideWidget):
         # Draw visible blocks
         for top, line, block in self._neditor.visible_blocks:
             # Set bold to current line and selected lines
-            if ((has_sel and sel_start <= line <= sel_end) or
-                    (not has_sel and current_line == line)):
-                painter.fillRect(
-                    QRect(0, top, self.width(), height), self._color_selected)
+            if (has_sel and sel_start <= line <= sel_end) or (not has_sel and current_line == line):
+                painter.fillRect(QRect(0, top, self.width(), height), self._color_selected)
             else:
                 painter.setPen(pen)
                 painter.setFont(font)
-            painter.drawText(self.LEFT_MARGIN, top, width, height,
-                             Qt.AlignRight, str(line + 1))
+            painter.drawText(self.LEFT_MARGIN, top, width, height, Qt.AlignRight, str(line + 1))
 
     def __calculate_width(self):
         digits = len(str(max(1, self._neditor.blockCount())))

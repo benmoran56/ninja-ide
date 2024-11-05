@@ -15,7 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with NINJA-IDE; If not, see <http://www.gnu.org/licenses/>.
 import os
-import imp
+import importlib
+import importlib.machinery
+
 from ninja_ide import resources
 
 
@@ -74,11 +76,12 @@ class Extension(metaclass=ExtensionRegistry):
 
 
 def discover_all(extensions_dir='.'):
-    extensions_dir = os.path.join(resources.PRJ_PATH,
-                                  "gui", "editor", "extensions")
+    extensions_dir = os.path.join(resources.PRJ_PATH, "gui", "editor", "extensions")
     for filename in os.listdir(extensions_dir):
         module_name, ext = os.path.splitext(filename)
         if ext == '.py' and not filename.startswith('__'):
-            _file, path, descr = imp.find_module(module_name, [extensions_dir])
+            # _file, path, descr = imp.find_module(module_name, [extensions_dir])
+            _file, path, descr = importlib.machinery.PathFinder().find_spec(module_name, [extensions_dir])
             if _file:
-                imp.load_module(module_name, _file, path, descr)
+                loader = importlib.machinery.SourceFileLoader(module_name, filename)
+                loader.load_module()
